@@ -2,14 +2,25 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-random.seed(2)
-### CHANGE THESE 2 VARIABLES FOR DIFFERENRT RESULTS ###
+#random.seed(5)
+seed = random.randint(1,9999999)
+random.seed(seed)
+print("Seed: "+str(seed))
+### In Seed 5 gene K sis rare ###
 
-OGAmountOfPeople=200
-AmountOfPeople=OGAmountOfPeople
-TotalGenerations=9
+### CHANGE THESE 2 VARIABLES FOR DIFFERENT RESULTS ###
+OGAmountOfPeople = int(input("How many people to start (Try and make this number equal pleas)? "))
+#OGAmountOfPeople=4
+#TotalGenerations= 10
+TotalGenerations = int(input("How many generations would you like to iterate through (Using to big of a number will take exponentially longer computing time)? "))
+#BabiesHad = 4
+BabiesHad = int(input("How many babies should be had each generation (Try and make this number equal pleas)? "))
+
+### Setting it to 4 means doubling every turn!
 
 ### BBRR BBRr BBrr BbRR BbRr Bbrr bbRR bbRr bbrr ###
+
+AmountOfPeople=OGAmountOfPeople
 Total = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 Traits = ["bb","BB","Bb","Bb"]
 Traits2Num = {"bb":0,"Bb":1,"BB":2}
@@ -39,8 +50,8 @@ NewPeople = []
 def CreatePerson():
     #### datapack = [freckles,eyecolor,curlyhair,earlobes] ###
     datapack = [random.choice(Traits),random.choice(Traits),random.choice(Traits)]
+    #print(datapack)
     return datapack
-    
 def Breed(TraitA,TraitB):
     ### Creating Children ###
     Child = TraitA[random.randint(0,1)]
@@ -53,7 +64,7 @@ def Breed(TraitA,TraitB):
 def NewGeneration(People):
     ### Breeding All Humans ###
     for Couple in range(int(AmountOfPeople/2)):        
-        for Children in range(4):
+        for Children in range(BabiesHad):
             Child = []
             for Trait in range(3):
                 Child.append(Breed(People[Couple][Trait],People[(AmountOfPeople-1)-Couple][Trait]))
@@ -64,7 +75,7 @@ def NewGeneration(People):
 ### Creating Starter Humans ###
 for Person in range(AmountOfPeople):
     People.append(CreatePerson())
-#print(People)
+    
 ### Breeding A Generation ###
 for i in range(TotalGenerations):
     #print(AmountOfPeople)
@@ -186,11 +197,11 @@ barlist[24].set_color('r')
 barlist[25].set_color('b')
 barlist[26].set_color('r')
 
-plt.suptitle('Distribution In A Punnet Table Over '+str(TotalGenerations)+ " Generations Starting With "+str(OGAmountOfPeople)+" People")
+plt.suptitle('Distribution In A Punnet Table Over '+str(TotalGenerations)+ " Generations Starting With "+str(OGAmountOfPeople)+" People \nAnd Each Couple(Group Of Two People) Having "+str(BabiesHad)+" Babies Every Turn")
 
-legend = plt.legend((barlist[0], barlist[1], barlist[4],barlist[13]), ('1', '2', '3','4'), title="Frequency In Average Distribution (Ratio)", fancybox = True)
+legend = plt.legend((barlist[0], barlist[1], barlist[4],barlist[13]), ('1', '2', '4','8'), title="Frequency In Average Distribution (Ratio)", fancybox = True)
 
-plt.xlabel('Which Type Of Gene?')
+plt.xlabel('Which Type Of Gene?\n\n\nTotal Population is '+str(len(People)))
 plt.ylabel('Population')
 
 Types =         ['BBRRKK', 'BBRrKK', 'BBrrKK', 'BbRRKK', 'BbRrKK',
